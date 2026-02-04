@@ -18,16 +18,17 @@ body {
     background-size: cover;
 }
 
-/* GO SEARCH */
+/* ================= SEARCH ================= */
 .search-box {
     position: fixed;
     bottom: 20px;
     left: 20px;
-    background: rgba(0,0,0,0.7);
+    background: rgba(0,0,0,0.75);
     padding: 10px;
     border-radius: 10px;
     display: flex;
     gap: 6px;
+    z-index: 300;
 }
 .search-box input {
     width: 60px;
@@ -43,7 +44,7 @@ body {
     cursor: pointer;
 }
 
-/* DPAD */
+/* ================= MAIN DPAD EDITOR ================= */
 .editor {
     position: fixed;
     top: 50%;
@@ -53,6 +54,7 @@ body {
     grid-template-columns: 120px 120px 120px;
     grid-template-rows: 120px 120px 120px;
     gap: 10px;
+    z-index: 200;
 }
 
 .cell {
@@ -79,7 +81,7 @@ body {
 .right   { grid-column: 3; grid-row: 2; }
 .back    { grid-column: 2; grid-row: 3; }
 
-/* SAVE */
+/* ================= SAVE ================= */
 .save-btn {
     position: fixed;
     bottom: 20px;
@@ -91,7 +93,40 @@ body {
     background: #00bfff;
     color: white;
     cursor: pointer;
+    z-index: 300;
 }
+
+/* ================= ADMIN NAV DPAD (ABOVE SAVE) ================= */
+.mini-dpad {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    display: grid;
+    grid-template-columns: 42px 42px 42px;
+    grid-template-rows: 42px 42px 42px;
+    gap: 6px;
+    z-index: 310;
+}
+
+.mini-dpad button {
+    border-radius: 10px;
+    border: none;
+    background: rgba(0,0,0,0.75);
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.mini-dpad button:hover {
+    background: rgba(0,0,0,0.95);
+    transform: scale(1.1);
+}
+
+.mini-forward { grid-column: 2; grid-row: 1; }
+.mini-left    { grid-column: 1; grid-row: 2; }
+.mini-right   { grid-column: 3; grid-row: 2; }
+.mini-back    { grid-column: 2; grid-row: 3; }
 </style>
 </head>
 
@@ -100,10 +135,10 @@ body {
 <form method="POST" action="/admin/map/save" id="mapForm">
 @csrf
 
-<!-- ACTUAL MAP VALUE -->
 <input type="hidden" name="map" id="currentMap" value="map1">
+<input type="hidden" name="mode" id="saveMode" value="normal">
 
-<!-- DPAD -->
+<!-- ================= MAIN DPAD EDITOR ================= -->
 <div class="editor">
 
     <div class="cell forward">
@@ -136,31 +171,46 @@ body {
     </div>
 
 </div>
-
+<button type="button"
+        class="save-btn"
+        style="right: 180px; background:#6c5ce7"
+        onclick="saveWithLR()">
+    SAVE w/ LR
+</button>
 <button class="save-btn" type="submit">SAVE</button>
 </form>
 
-<!-- GO SEARCH -->
+<!-- ================= SEARCH ================= -->
 <div class="search-box">
     <input type="number" id="mapSearch" placeholder="1" onkeydown="handleEnter(event)">
     <button type="button" onclick="goMap()">GO</button>
 </div>
 
+<!-- ================= ADMIN NAV DPAD ================= -->
+<div class="mini-dpad">
+    <button id="btn-forward" class="mini-forward" onclick="adminMove('forward')">▲</button>
+    <button id="btn-left"    class="mini-left"    onclick="adminMove('left')">◀</button>
+    <button id="btn-right"   class="mini-right"   onclick="adminMove('right')">▶</button>
+    <button id="btn-back"    class="mini-back"    onclick="adminMove('back')">▼</button>
+</div>
+
 <script>
+let currentLinks = {};
+
+/* ================= GO MAP ================= */
 function goMap() {
     const num = document.getElementById('mapSearch').value;
     if (!num) return;
 
     const mapName = 'map' + num;
-
     document.body.style.backgroundImage = `url('/maps/${mapName}.jpg')`;
     document.getElementById('currentMap').value = mapName;
     document.getElementById('mapLabel').innerText = mapName;
 
-    // Optional: populate DPAD inputs if mapData exists in JS
+    loadAdminLinks();
 }
 
-/* Trigger go on Enter */
+/* ================= ENTER KEY ================= */
 function handleEnter(e) {
     if (e.key === 'Enter') {
         e.preventDefault();
@@ -168,32 +218,93 @@ function handleEnter(e) {
     }
 }
 
-/* NUMBER → mapX CONVERSION */
+/* ================= NUMBER → mapX ================= */
 document.querySelectorAll('.map-input').forEach(input => {
     input.addEventListener('input', function () {
         const dir = this.dataset.dir;
         const hidden = document.querySelector(`input[name="${dir}"]`);
-        hidden.value = this.value === '' ? '' : 'map' + this.value;
+        hidden.value = this.value ? 'map' + this.value : '';
     });
 });
 
-/* --- NEW: Keep map number after save --- */
-document.getElementById('mapForm').addEventListener('submit', function(e){
-    // Save the current Go input value to a cookie so we can reload it
-    const mapNum = document.getElementById('mapSearch').value;
-    if(mapNum) {
-        document.cookie = "lastMap=" + mapNum + ";path=/";
+/* ================= LOAD LINKS + TOGGLE DPAD ================= */
+async function loadAdminLinks() {
+    const map = document.getElementById('currentMap').value;
+
+    try {
+        const res = await fetch(`/admin/map/links/${map}`);
+        currentLinks = await res.json();
+
+        toggleBtn('forward', currentLinks.forward);
+        toggleBtn('left',    currentLinks.left);
+        toggleBtn('right',   currentLinks.right);
+        toggleBtn('back',    currentLinks.back);
+
+    } catch (e) {
+        console.error('Failed loading links');
+    }
+}
+
+function toggleBtn(dir, val) {
+    document.getElementById('btn-' + dir).style.display = val ? 'block' : 'none';
+}
+
+/* ================= ADMIN MOVE ================= */
+function adminMove(dir) {
+    const target = currentLinks[dir];
+    if (!target) return;
+
+    const num = target.replace('map','');
+    document.getElementById('mapSearch').value = num;
+    goMap();
+}
+
+/* ================= COOKIE SAVE ================= */
+document.getElementById('mapForm').addEventListener('submit', () => {
+    const num = document.getElementById('mapSearch').value;
+    if (num) document.cookie = "lastMap=" + num + ";path=/";
+});
+
+/* ================= LOAD LAST MAP ================= */
+window.addEventListener('DOMContentLoaded', () => {
+    const m = document.cookie.match(/(?:^|; )lastMap=(\d+)/);
+    if (m) {
+        document.getElementById('mapSearch').value = m[1];
+        goMap();
+    } else {
+        loadAdminLinks();
     }
 });
 
-// On page load, check cookie and go to that map
-window.addEventListener('DOMContentLoaded', () => {
-    const matches = document.cookie.match(/(?:^|; )lastMap=(\d+)/);
-    if(matches) {
-        document.getElementById('mapSearch').value = matches[1];
-        goMap();
+function saveWithLR() {
+
+    const forwardInput = document.querySelector('.map-input[data-dir="forward"]');
+    const forwardVal = forwardInput.value;
+
+    if (!forwardVal) {
+        alert('Set FORWARD first');
+        return;
     }
-});
+
+    const base = parseInt(forwardVal, 10);
+    if (isNaN(base)) {
+        alert('FORWARD must be a number');
+        return;
+    }
+
+    // tell backend we want special behavior
+    document.getElementById('saveMode').value = 'withLR';
+
+    // ONLY save forward on current map
+    document.querySelector('input[name="forward"]').value = 'map' + base;
+    document.querySelector('input[name="left"]').value  = '';
+    document.querySelector('input[name="right"]').value = '';
+    document.querySelector('input[name="back"]').value  = '';
+    
+    document.getElementById('mapForm').submit();
+}
+
+
 </script>
 
 </body>

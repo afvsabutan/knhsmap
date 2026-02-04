@@ -6,6 +6,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+
+   #ratio-wrapper {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: black; /* bars */
+}
+
+#ratio-stage {
+    width: 100vw;
+    aspect-ratio: 16 / 9;
+    max-height: 100vh;
+    background: transparent;
+    position: relative;
+}
+
 html, body {
     margin: 0;
     height: 100%;
@@ -15,13 +33,27 @@ html, body {
 
 /* FULL BACKGROUND MAP */
 body {
-    background: url("{{ asset('maps/'.$map.'.jpg') }}") no-repeat center center fixed;
+    background: black;
+}
+
+#ratio-stage {
+    background: url("{{ asset('maps/'.$map.'.jpg') }}") no-repeat center center;
     background-size: cover;
 }
 
+/* 16:9 STAGE */
+/* #stage {
+    width: 1920px;
+    height: 1080px;
+    position: relative;
+    background: url("{{ asset('maps/'.$map.'.jpg') }}") no-repeat center center;
+    background-size: cover;
+    transform-origin: top left;
+} */
+
 /* TOP BAR: MENU + SEARCH */
 .top-bar {
-    position: fixed;
+    position: absolute;
     top: 20px;
     left: 20px;
     display: flex;
@@ -75,7 +107,7 @@ body {
 
 /* SIDE MENU */
 .side-menu {
-    position: fixed;
+    position: absolute;
     top: 50%;
     left: -300px;
     transform: translateY(-50%);
@@ -128,7 +160,7 @@ body {
 
 /* INFO PANEL BELOW SEARCH - dark blue background */
 .info-panel {
-    position: fixed;
+    position: absolute;
     top: 70px;
     left: 20px;
     width: 240px;
@@ -174,7 +206,7 @@ body {
 
 /* MINI MAP - bottom left rectangle */
 .mini-map {
-    position: fixed;
+    position: absolute;
     bottom: 60px;
     left: 20px;
     width: 180px;
@@ -191,7 +223,7 @@ body {
 
 /* CROSS CONTROLS - D-Pad SQUARE with rounded corners + text labels */
 .controls {
-    position: fixed;
+    position: absolute;
     right: 25px;
     bottom: 60px;
     display: grid;
@@ -231,13 +263,13 @@ body {
 .back    { grid-column: 2; grid-row: 3; }
 
 /* MINI MAP POPUP */
-#mini-map-modal { display: none; position: fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:999; }
+#mini-map-modal { display: none; position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:999; }
 #mini-map-modal img { max-width:90vw; max-height:90vh; border-radius:10px; border:2px solid #fff; display:block; }
 .close-btn { position:absolute; top:-15px; right:-15px; background:#000; color:#fff; width:30px; height:30px; border-radius:50%; font-size:20px; line-height:30px; text-align:center; cursor:pointer; }
 
 /* BOTTOM CENTER TITLE */
 .title-bottom {
-    position: fixed;
+    position: absolute;
     bottom: 15px;
     left: 50%;
     transform: translateX(-50%);
@@ -251,7 +283,7 @@ body {
 
 /* TOP RIGHT BRANDING */
 .branding {
-    position: fixed;
+    position: absolute;
     top: 20px;
     right: 20px;
     display: flex;
@@ -273,7 +305,10 @@ body {
 }
 </style>
 </head>
+
 <body>
+<div id="ratio-wrapper">
+    <div id="ratio-stage">
 
 <!-- TOP BAR: MENU + SEARCH -->
 <div class="top-bar">
@@ -362,6 +397,31 @@ function searchMap() {
     if(query) alert("Searching for: " + query);
 }
 </script>
+@include('additionalpads')
+</div> <!-- stage -->
+</div> <!-- viewport -->
+
+<script>
+function lock16by9() {
+    const stage = document.getElementById('ratio-stage');
+
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+
+    if ((w / h) < (16 / 9)) {
+        // portrait or tall screen → limit by height
+        stage.style.width = (h * 16 / 9) + 'px';
+    } else {
+        // landscape → full width
+        stage.style.width = '100vw';
+    }
+}
+
+window.addEventListener('resize', lock16by9);
+window.addEventListener('orientationchange', lock16by9);
+lock16by9();
+</script>
+
 
 </body>
 </html>
