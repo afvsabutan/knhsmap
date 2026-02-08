@@ -83,7 +83,7 @@ body {
 .search-bar {
     display: flex;
     align-items: center;
-    background: rgba(255,255,255,0.9);
+    background: rgb(42, 32, 108);
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.3);
     padding: 5px 10px;
@@ -104,6 +104,39 @@ body {
     color: #4285f4;
 }
 .search-bar button:hover { color: #357ae8; }
+/* SEARCH AUTOCOMPLETE */
+#search-results {
+    position: absolute;
+    top: 45px;
+    left: 0;
+    width: 100%;
+    background: #ffffffdb;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+    z-index: 300;
+}
+
+#search-results li {
+    padding: 10px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+#search-results li:hover {
+    background: #f0f6ff;
+}
+
+#search-results li:last-child {
+    border-bottom: none;
+}
+
 
 /* SIDE MENU */
 .side-menu {
@@ -171,6 +204,10 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     z-index: 200;
     color: #fff;
+    transition: transform 0.25s ease;
+}
+.info-panel.shift-down {
+    transform: translateY(180px); /* moves panel down */
 }
 .info-panel .floor {
     font-weight: bold;
@@ -314,8 +351,11 @@ body {
 <div class="top-bar">
     <button class="menu-btn" onclick="toggleMenu()">☰</button>
     <div class="search-bar">
-        <input type="text" id="map-search" placeholder="Search location...">
+        <input type="text" id="map-search" placeholder="Search location..." autocomplete="off">
         <button onclick="searchMap()">🔍</button>
+
+        <!-- SEARCH SUGGESTIONS -->
+        <div id="search-results" class="search-results"></div>
     </div>
 </div>
 
@@ -392,10 +432,110 @@ document.getElementById('mini-map-modal').addEventListener('click', function(e) 
 });
 
 // Dummy search
-function searchMap() {
-    const query = document.getElementById('map-search').value.trim();
-    if(query) alert("Searching for: " + query);
+// function searchMap() {
+//     const query = document.getElementById('map-search').value.trim();
+//     if(query) alert("Searching for: " + query);
+// }
+
+const locations = [
+    { name: "Computer Laboratory", map: "map12" },
+    { name: "12 TVL ICT", map: "map8" },
+    { name: "12 HUMMS 8", map: "map16" },
+    { name: "Registrar's office", map: "map21" },
+    { name: "12 STEM", map: "map85" },
+    { name: "Grade 12 BUilding", map: "map74" },
+    { name: "SPA Building", map: "map64" },
+    { name: "12 STEM", map: "map85" },
+    { name: "12 STEM", map: "map85" },
+    { name: "12 STEM", map: "map85" },
+    { name: "12 STEM", map: "map85" },
+    { name: "12 STEM", map: "map85" },
+    { name: "12 STEM", map: "map85" },
+    { name: "12 STEM", map: "map85" },
+    { name: "12 STEM", map: "map85" },
+    { name: "12 STEM", map: "map85" },
+    { name: "12 STEM", map: "map85" },
+    { name: "12 STEM", map: "map85" },
+    { name: "12 STEM", map: "map85" },
+];
+
+const input = document.getElementById("map-search");
+const results = document.getElementById("search-results");
+const infoPanel = document.querySelector(".info-panel");
+
+// Move info panel down when search is active
+input.addEventListener("input", moveInfoPanel);
+input.addEventListener("focus", moveInfoPanel);
+
+function moveInfoPanel() {
+    if (input.value || results.style.display === "block") {
+        infoPanel.classList.add("shift-down");
+    } else {
+        infoPanel.classList.remove("shift-down");
+    }
 }
+
+// Remove shift-down when clicking outside
+document.addEventListener("click", (e) => {
+    if (!e.target.closest(".search-bar")) {
+        results.style.display = "none";
+        infoPanel.classList.remove("shift-down");
+    }
+});
+
+
+input.addEventListener("input", showResults);
+input.addEventListener("focus", showResults);
+
+document.addEventListener("click", (e) => {
+    if (!e.target.closest(".search-bar")) {
+        results.style.display = "none";
+    }
+});
+
+function showResults() {
+    const value = input.value.trim().toLowerCase();
+
+    // if input is empty, hide the results and move info panel back
+    if (!value) {
+        results.style.display = "none";
+        infoPanel.classList.remove("shift-down");
+        return;
+    }
+
+    results.innerHTML = "";
+
+    const filtered = locations.filter(loc =>
+        loc.name.toLowerCase().includes(value)
+    );
+
+    if (filtered.length === 0) {
+        results.style.display = "none";
+        return;
+    }
+
+    filtered.forEach(loc => {
+        const li = document.createElement("li");
+        li.textContent = loc.name;
+        li.onclick = () => {
+            window.location.href = `/map/${loc.map}`;
+        };
+        results.appendChild(li);
+    });
+
+    results.style.display = "block";
+
+    // Move info panel down
+    infoPanel.classList.add("shift-down");
+}
+
+
+function searchMap() {
+    if (results.firstChild) {
+        results.firstChild.click();
+    }
+}
+
 </script>
 @include('additionalpads')
 </div> <!-- stage -->
