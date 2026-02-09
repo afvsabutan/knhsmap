@@ -468,7 +468,23 @@ const locations = [
 const input = document.getElementById("map-search");
 const results = document.getElementById("search-results");
 const infoPanel = document.querySelector(".info-panel");
+input.addEventListener("input", function() {
+    const query = this.value.toLowerCase();
+    results.innerHTML = ""; // clear previous results
 
+    locations.forEach(loc => {
+        loc.names.forEach(name => {
+            if(name.toLowerCase().includes(query)) {
+                const div = document.createElement("div");
+                div.textContent = name + " (" + loc.map + ")";
+                div.onclick = () => {
+                    alert("Go to map: " + loc.map);
+                }
+                results.appendChild(div);
+            }
+        });
+    });
+});
 // Move info panel down when search is active
 input.addEventListener("input", moveInfoPanel);
 input.addEventListener("focus", moveInfoPanel);
@@ -571,5 +587,6 @@ lock16by9();
 
 </body>
 </html>
+
 
 
