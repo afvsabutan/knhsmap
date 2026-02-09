@@ -344,6 +344,12 @@ body {
 </head>
 
 <body>
+    @include('locations') <!-- this injects the locations JS -->
+
+<script>
+    // Your existing JS code
+    console.log(locations); // Test if it works
+</script>
 <div id="ratio-wrapper">
     <div id="ratio-stage">
 
@@ -437,6 +443,7 @@ document.getElementById('mini-map-modal').addEventListener('click', function(e) 
 //     if(query) alert("Searching for: " + query);
 // }
 
+@include('locations.blade.php)
 const locations = [
     { name: "Computer Laboratory", map: "map12" },
     { name: "12 TVL ICT", map: "map8" },
@@ -564,4 +571,5 @@ lock16by9();
 
 </body>
 </html>
+
 
