@@ -429,6 +429,46 @@ $mapZones = [
             ]
         ],
     ],
+    'map85' => [
+        [
+            'id' => 'button1',
+            'x1' => 7, 'y1' => 14, 'x2' => 26, 'y2' => 71,
+            'title' => '12- Science, Technology, Engineering, and Mathematics (STEM)',
+            'students' => [
+                'girls' => [
+                    'Bella Quinto','Breezy Rivera','Brielle Singh','Celine Salazar','Clara Tan','Cleo Torres','Dahlia Uy','Daniella Velasco',
+                    'Darcy Wong','Elara Alvarez','Eliza Cabrera','Ella David','Elowen Espino','Faith Fuentes','Fiona Lim','Freya Patel',
+                    'Gemma Perez','Gia Quinto','Giselle Rivera','Hailey Singh','Harper Salazar','Indie Tan','Isabella Torres','Jada Uy',
+                    'Janae Velasco','Jessa Wong','Jolie Alvarez','Kaiya Cabrera','Kiera David','Kyla Espino','Lani Fuentes','Lara Lim',
+                    'Leia Patel','Luna Perez'
+                ],
+                'boys' => [
+                    'Merrick Quinto','Milo Rivera','Nash Singh','Nico Salazar','Orion Tan','Pax Torres','Piers Uy','Quill Velasco',
+                    'Rex Wong','Rocco Alvarez','Ronan Cabrera','Silas David','Slade Espino','Talon Fuentes','Tate Lim','Theo Patel',
+                    'Vance Perez','Wes Quinto','Wilder Rivera','Xander Singh','Yves Salazar','Zane Tan'
+                ]
+            ]
+        ],
+        [
+            'id' => 'button2',
+            'x1' => 145, 'y1' => 16, 'x2' => 160, 'y2' => 77,
+            'title' => '12- Science, Technology, Engineering, and Mathematics (STEM)',
+            'students' => [
+                'girls' => [
+                    'Bella Quinto','Breezy Rivera','Brielle Singh','Celine Salazar','Clara Tan','Cleo Torres','Dahlia Uy','Daniella Velasco',
+                    'Darcy Wong','Elara Alvarez','Eliza Cabrera','Ella David','Elowen Espino','Faith Fuentes','Fiona Lim','Freya Patel',
+                    'Gemma Perez','Gia Quinto','Giselle Rivera','Hailey Singh','Harper Salazar','Indie Tan','Isabella Torres','Jada Uy',
+                    'Janae Velasco','Jessa Wong','Jolie Alvarez','Kaiya Cabrera','Kiera David','Kyla Espino','Lani Fuentes','Lara Lim',
+                    'Leia Patel','Luna Perez'
+                ],
+                'boys' => [
+                    'Merrick Quinto','Milo Rivera','Nash Singh','Nico Salazar','Orion Tan','Pax Torres','Piers Uy','Quill Velasco',
+                    'Rex Wong','Rocco Alvarez','Ronan Cabrera','Silas David','Slade Espino','Talon Fuentes','Tate Lim','Theo Patel',
+                    'Vance Perez','Wes Quinto','Wilder Rivera','Xander Singh','Yves Salazar','Zane Tan'
+                ]
+            ]
+        ],
+    ],
     
 
 
