@@ -344,12 +344,6 @@ body {
 </head>
 
 <body>
-    @include('locations') <!-- this injects the locations JS -->
-
-<script>
-    // Your existing JS code
-    console.log(locations); // Test if it works
-</script>
 <div id="ratio-wrapper">
     <div id="ratio-stage">
 
@@ -443,58 +437,32 @@ document.getElementById('mini-map-modal').addEventListener('click', function(e) 
 //     if(query) alert("Searching for: " + query);
 // }
 
-// const locations = [
-//     { name: "Computer Laboratory", map: "map12" },
-//     { name: "12 TVL ICT", map: "map8" },
-//     { name: "12 HUMMS 8", map: "map16" },
-//     { name: "Registrar's office", map: "map21" },
-//     { name: "Grade 12 BUilding", map: "map74" },
-//     { name: "SPA Building", map: "map64" },
-//     { name: "12 STEM", map: "map85" },
-//     { name: "12 STEM", map: "map85" },
-//     { name: "12 STEM", map: "map85" },
-//     { name: "12 STEM", map: "map85" },
-//     { name: "12 STEM", map: "map85" },
-//     { name: "12 STEM", map: "map85" },
-//     { name: "12 STEM", map: "map85" },
-//     { name: "12 STEM", map: "map85" },
-//     { name: "12 STEM", map: "map85" },
-//     { name: "12 STEM", map: "map85" },
-//     { name: "12 STEM", map: "map85" },
-//     { name: "12 STEM", map: "map85" },
-// ];
+const locations = [
+    { name: "Computer Laboratory", map: "map12" },
+    { name: "12 TVL ICT", map: "map8" },
+    { name: "12 HUMMS 8", map: "map16" },
+    { name: "Registrar's office", map: "map21" },
+    { name: "12 STEM", map: "map85" },
+    { name: "Grade 12 BUilding", map: "map74" },
+    { name: "SPA Building", map: "map64" },
+    { name: "12 STEM", map: "map85" },
+    { name: "12 STEM", map: "map85" },
+    { name: "12 STEM", map: "map85" },
+    { name: "12 STEM", map: "map85" },
+    { name: "12 STEM", map: "map85" },
+    { name: "12 STEM", map: "map85" },
+    { name: "12 STEM", map: "map85" },
+    { name: "12 STEM", map: "map85" },
+    { name: "12 STEM", map: "map85" },
+    { name: "12 STEM", map: "map85" },
+    { name: "12 STEM", map: "map85" },
+    { name: "12 STEM", map: "map85" },
+];
 
 const input = document.getElementById("map-search");
 const results = document.getElementById("search-results");
 const infoPanel = document.querySelector(".info-panel");
-input.addEventListener("input", function() {
-    const value = this.value.trim().toLowerCase();
-    results.innerHTML = "";
 
-    if (!value) {
-        results.style.display = "none";
-        return;
-    }
-
-    locations.forEach(loc => {
-        loc.names.forEach(name => {
-            if (name.toLowerCase().includes(value)) {
-                const li = document.createElement("li");
-                li.textContent = name + " (" + loc.map + ")";
-                li.onclick = () => {
-                    window.location.href = `/map/${loc.map}`;
-                };
-                results.appendChild(li);
-            }
-        });
-    });
-
-    if (results.children.length > 0) {
-        results.style.display = "block";
-    } else {
-        results.style.display = "none";
-    }
-});
 // Move info panel down when search is active
 input.addEventListener("input", moveInfoPanel);
 input.addEventListener("focus", moveInfoPanel);
@@ -597,7 +565,3 @@ lock16by9();
 
 </body>
 </html>
-
-
-
-
