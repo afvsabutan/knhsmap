@@ -477,7 +477,7 @@ const locations = [
       { name: "Jolie Santos", map: "map264" },
       { name: "Kaiya Reyes", map: "map264" },
       { name: "Kyla Cruz", map: "map264" },
-      { name: "Lara Lopez", map: "map264" }
+      { name: "Lara Lopez", map: "map264" },
       { name: "Aaron Garcia", map: "map264" },
       { name: "Arlo Mendoza", map: "map264" },
       { name: "Blaze Torres", map: "map264" },
@@ -498,7 +498,7 @@ const locations = [
       { name: "Knox Fuentes", map: "map264" },
       { name: "Leo Morales", map: "map264" },
       { name: "Milo Wong", map: "map264" },
-      { name: "Nash Kim", map: "map264" }
+      { name: "Nash Kim", map: "map264" },
       { name: "Lani Hernandez", map: "map276" },
       { name: "Lara Cabrera", map: "map276" },
       { name: "Leia Velasco", map: "map276" },
@@ -523,7 +523,7 @@ const locations = [
       { name: "Wren Jimenez", map: "map276" },
       { name: "Xena Tan", map: "map276" },
       { name: "Xyla Uy", map: "map276" },
-      { name: "Yara Ponce", map: "map276" }
+      { name: "Yara Ponce", map: "map276" },
       { name: "Lars Navarro", map: "map276" },
       { name: "Leo Perez", map: "map276" },
       { name: "Mack Salazar", map: "map276" },
@@ -540,7 +540,7 @@ const locations = [
       { name: "Rocco Lim", map: "map276" },
       { name: "Ronan Santos", map: "map276" },
       { name: "Silas Reyes", map: "map276" },
-      { name: "Tate Cruz", map: "map276" }
+      { name: "Tate Cruz", map: "map276" },
     { name: "G7 Building", map: "map149" },
       { name: "Aria Santos", map: "map129" },
       { name: "Bella Reyes", map: "map129" },
@@ -565,7 +565,7 @@ const locations = [
       { name: "Uma Dela Rosa", map: "map129" },
       { name: "Veda Fuentes", map: "map129" },
       { name: "Wren Morales", map: "map129" },
-      { name: "Xena Wong", map: "map129" }
+      { name: "Xena Wong", map: "map129" },
       { name: "Axel Kim", map: "map129" },
       { name: "Beau Patel", map: "map129" },
       { name: "Cole David", map: "map129" },
@@ -581,7 +581,7 @@ const locations = [
       { name: "Milo Aquino", map: "map129" },
       { name: "Nico Fernandez", map: "map129" },
       { name: "Orion Jimenez", map: "map129" },
-      { name: "Pax Tan", map: "map129" }
+      { name: "Pax Tan", map: "map129" },
       { name: "Lara Hernandez", map: "map131" },
       { name: "Leia Cabrera", map: "map131" },
       { name: "Luna Velasco", map: "map131" },
@@ -610,7 +610,7 @@ const locations = [
       { name: "Gemma Navarro", map: "map131" },
       { name: "Harper Perez", map: "map131" },
       { name: "Indie Salazar", map: "map131" },
-      { name: "Jolie Hernandez", map: "map131" }
+      { name: "Jolie Hernandez", map: "map131" },
       { name: "Arlo Cabrera", map: "map131" },
       { name: "Bowie Velasco", map: "map131" },
       { name: "Caspian Dela Rosa", map: "map131" },
@@ -629,7 +629,7 @@ const locations = [
       { name: "Piers Mendoza", map: "map131" },
       { name: "Quill Torres", map: "map131" },
       { name: "Ronan Ramos", map: "map131" },
-      { name: "Silas Aquino", map: "map131" }
+      { name: "Silas Aquino", map: "map131" },
       { name: "Aaliyah Cabrera", map: "map145" },
       { name: "Brielle Velasco", map: "map145" },
       { name: "Clara Dela Rosa", map: "map145" },
@@ -659,7 +659,7 @@ const locations = [
       { name: "Aisha Salazar", map: "map145" },
       { name: "Bellamy Hernandez", map: "map145" },
       { name: "Cleo Cabrera", map: "map145" },
-      { name: "Dahlia Velasco", map: "map145" }
+      { name: "Dahlia Velasco", map: "map145" },
       { name: "Arlo Dela Rosa", map: "map145" },
       { name: "Bowie Fuentes", map: "map145" },
       { name: "Caspian Morales", map: "map145" },
@@ -679,7 +679,7 @@ const locations = [
       { name: "Quill Aquino", map: "map145" },
       { name: "Ronan Fernandez", map: "map145" },
       { name: "Silas Jimenez", map: "map145" },
-      { name: "Talon Tan", map: "map145" }
+      { name: "Talon Tan", map: "map145" },
       { name: "Aaliyah Santos", map: "map404" },
       { name: "Brielle Reyes", map: "map404" },
       { name: "Clara Cruz", map: "map404" },
@@ -734,7 +734,7 @@ const locations = [
       { name: "Silas Wong", map: "map404" },
       { name: "Talon Kim", map: "map404" },
       { name: "Vance Patel", map: "map404" },
-      { name: "Wilder David", map: "map404" }
+      { name: "Wilder David", map: "map404" },
 
     { name: "12 STEM", map: "map85" },
       { name: "Bella Quinto", map: "map85" },
@@ -879,6 +879,7 @@ lock16by9();
 
 </body>
 </html>
+
 
 
 
